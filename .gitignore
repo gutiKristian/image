@@ -37,7 +37,7 @@ out/build/
 [Bb][Uu][Ii][Ll][Dd]/
 
 # Libs
-lib/*
+libs/*
 
 #  Vscode
 .vscode/*
