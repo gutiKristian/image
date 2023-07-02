@@ -1,3 +1,3 @@
 @echo Building Image
 
-cmake --build out/build
+cmake --build build

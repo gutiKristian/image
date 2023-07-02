@@ -1,3 +1,3 @@
 @echo                   Running Image
 @echo --------------------------------------------
-@.\out\build\Debug\image.exe
+@.\build\Debug\image.exe
