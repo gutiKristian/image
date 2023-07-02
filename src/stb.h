@@ -45,6 +45,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "../lib/stb_image.h"
-#include "../lib/stb_image_write.h"
+#include "../libs/stb_image.h"
+#include "../libs/stb_image_write.h"
 
