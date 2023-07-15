@@ -1,6 +1,9 @@
 #include <iostream>
 #include <filesystem>
 
+#include "imgui/imgui.h"
+#include "imgui/imgui-SFML.h"
+
 #include "SFML/Graphics.hpp"
 #include "SFML/System.hpp"
 
@@ -13,8 +16,10 @@
     
 
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML ");
-        
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML", sf::Style::Close);
+    ImGui::SFML::Init(window);
+
+
     sf::Image image;
     if (!(image.loadFromFile(image_path)))
     {
@@ -27,24 +32,33 @@
     sf::Sprite sprite;
     sprite.setTexture(texture);    
 
-
+    sf::Clock delta_clock;
     while (window.isOpen())
     {
-            
-            sf::Event event;
-            
-            while (window.pollEvent(event))
+        
+        sf::Event event;
+        
+        while (window.pollEvent(event))
+        {
+            ImGui::SFML::ProcessEvent(event);   
+            if (event.type == sf::Event::Closed)
             {
-                    if (event.type == sf::Event::Closed)
-                    {
-                        window.close();
-                    }
+                window.close();
             }
-                    
-                window.clear();
-                window.draw(sprite);
-                window.display();
-            }
+        }
+        ImGui::SFML::Update(window, delta_clock.restart());
 
+
+        ImGui::Begin("Image");
+        ImGui::Text("Text!");
+        ImGui::End();
+
+        window.clear();
+        window.draw(sprite);
+        ImGui::SFML::Render(window);
+        window.display();
+    }
+
+    ImGui::SFML::Shutdown();
     return 0;
  }

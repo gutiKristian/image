@@ -41,3 +41,6 @@ libs/*
 
 #  Vscode
 .vscode/*
+
+src/imgui/*.cpp
+src/imgui/*.h
