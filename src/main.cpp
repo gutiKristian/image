@@ -7,17 +7,17 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/System.hpp"
 
+import Basics;
 
  int main()
  {
 
     std::filesystem::path path_to_imgs = std::filesystem::current_path() / "../../images/";
     std::string image_path = (path_to_imgs / "erika.png").string();
-    
+
     // In future when working with images,
     // we load them do the operations and then show them, update is expensive since the
     // data has to be moved to the GPU VRAM --- (no it really matters here, but this is a sidenote)
-
 
     sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML", sf::Style::Close);
     ImGui::SFML::Init(window);
