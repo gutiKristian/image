@@ -44,4 +44,8 @@ libs/*
 
 src/imgui/*.cpp
 src/imgui/*.h
+# Jetbrains files, dirs
 .idea
+
+# Custom
+clion-build/*
