@@ -49,3 +49,4 @@ src/imgui/*.h
 
 # Custom
 clion-build/*
+cmake-build-debug/*
