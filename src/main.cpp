@@ -83,7 +83,9 @@ int main()
 
     // Canvas for graphics, this is a buffer that is modified and written on
     sf::Image canvas;
-    canvas.create(WIDTH, HEIGHT, sf::Color::White);
+    canvas.create(WIDTH, HEIGHT, sf::Color::Black);
+    graphics::draw_line_basic({100, 100}, {1000, 100}, canvas);
+
 
     // Display the buffer
     buffer.write_image(canvas);
