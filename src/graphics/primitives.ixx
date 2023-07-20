@@ -4,6 +4,8 @@
 module;
 
 #include <iostream>
+
+#include "../imgui/imgui.h"
 #include "SFML/Graphics.hpp"
 #include "SFML/System.hpp"
 
@@ -14,7 +16,8 @@ using Point = sf::Vector2i;
 using Image = sf::Image;
 using Color = sf::Color;
 
-namespace graphics
+// C++17
+namespace graphics::primitives
 {
 
     export void primitives()
@@ -64,6 +67,11 @@ namespace graphics
             img.setPixel(x, y, color);
         }
 
+    }
+
+    export void OnImGui()
+    {
+        ImGui::Button("Primitives");
     }
 
 }
