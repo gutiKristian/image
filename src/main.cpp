@@ -58,6 +58,10 @@ private:
 };
 
 
+void OnImgui()
+{
+    graphics::primitives::OnImGui();
+}
 
 int main()
 {
@@ -84,7 +88,7 @@ int main()
     // Canvas for graphics, this is a buffer that is modified and written on
     sf::Image canvas;
     canvas.create(WIDTH, HEIGHT, sf::Color::Black);
-    graphics::draw_line_basic({100, 100}, {1000, 100}, canvas);
+    graphics::primitives::draw_line_parametric({100, 100}, {1000, 100}, canvas);
 
 
     // Display the buffer
@@ -110,7 +114,7 @@ int main()
 
 
         ImGui::Begin("Image");
-        ImGui::Text("Text!");
+        OnImgui();
         ImGui::End();
 
 
