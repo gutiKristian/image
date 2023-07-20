@@ -48,7 +48,7 @@ namespace graphics
      * @param img Where the line will be drawn
      * @param color Color of the drawn line
      */
-    export void draw_line_basic(Point p1, Point p2, Image& img, const Color& color = sf::Color::White)
+    export void draw_line_parametric(Point p1, Point p2, Image& img, const Color& color = sf::Color::White)
     {
         // Unpack start s_[x|y] and end e_[x|y]
         const auto [x0, y0] = p1;
