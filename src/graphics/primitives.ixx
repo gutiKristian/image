@@ -14,10 +14,10 @@ using Point = sf::Vector2i;
 using Image = sf::Image;
 using Color = sf::Color;
 
-export namespace graphics
+namespace graphics
 {
 
-    void primitives()
+    export void primitives()
     {
         std::cout << "------------------ PRIMITIVES MODULE ------------------\n";
         std::cout << "\t Write primitives such as: lines and triangles.\n";
@@ -32,7 +32,7 @@ export namespace graphics
      * @param img Where the line will be drawn
      * @param color Color of the drawn line
      */
-    void draw_line_bresenham(Point p1, Point p2, Image& img, const Color& color)
+    export void draw_line_bresenham(Point p1, Point p2, Image& img, const Color& color)
     {
         // TODO IMPLEMENT
 
@@ -48,7 +48,7 @@ export namespace graphics
      * @param img Where the line will be drawn
      * @param color Color of the drawn line
      */
-    void draw_line_parametric(Point p1, Point p2, Image& img, const Color& color = sf::Color::White)
+    export void draw_line_parametric(Point p1, Point p2, Image& img, const Color& color = sf::Color::White)
     {
         // Unpack start s_[x|y] and end e_[x|y]
         const auto [x0, y0] = p1;
