@@ -88,7 +88,6 @@ int main()
     // Canvas for graphics, this is a buffer that is modified and written on
     sf::Image canvas;
     canvas.create(WIDTH, HEIGHT, sf::Color::Black);
-    graphics::primitives::draw_line_parametric({100, 100}, {1000, 700}, canvas);
 
 
     // Display the buffer
@@ -111,16 +110,20 @@ int main()
         }
 
         ImGui::SFML::Update(window, delta_clock.restart());
-
-        // We re-draw the image even though it has not been changed -> will change this
-        canvas.create(canvas.getSize().x, canvas.getSize().y, sf::Color::Black);
-        graphics::primitives::draw_line_parametric({100, 100}, {1000, 700}, canvas);
-        buffer.write_image(canvas);
-
         ImGui::Begin("Image");
         OnImgui();
         ImGui::End();
 
+        if (graphics::primitives::parametric::redraw)
+        {
+            // Reset canvas
+            canvas.create(canvas.getSize().x, canvas.getSize().y, sf::Color::Black);
+            // Redraw parametric line
+            graphics::primitives::draw_line_parametric(canvas);
+            // Update buffer
+            buffer.write_image(canvas);
+            graphics::primitives::parametric::redraw = false;
+        }
 
         window.clear();
         window.draw(buffer.draw()); // Render buffer(image that has been modified)
