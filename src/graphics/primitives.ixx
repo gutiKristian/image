@@ -19,7 +19,6 @@ using Color = sf::Color;
 // C++17
 namespace graphics::primitives
 {
-
     export void primitives()
     {
         std::cout << "------------------ PRIMITIVES MODULE ------------------\n";
@@ -41,6 +40,12 @@ namespace graphics::primitives
 
     }
 
+
+    namespace parametric
+    {
+        float t = .001f;
+    }
+
     /**
      * Write a line using simple paramteric line equation.
      * p(t) = P + t * v
@@ -60,11 +65,19 @@ namespace graphics::primitives
         int v = x1 - x0;
         int u = y1 - y0;
 
-        for (float t = 0.0f; t <= 1.0f; t+=.001f)
+        for (float t = 0.0f; t <= 1.0f; t+=parametric::t)
         {
             int x = x0 + t * v;
             int y = y0 + t * u;
-            img.setPixel(x, y, color);
+
+            // Make one pixel of size 3x3
+            for (int i = -1; i <= 1; ++i)
+            {
+                for (int j = -1; j <= 1; ++j)
+                {
+                    img.setPixel(x - i, y - j, color);
+                }
+            }
         }
 
     }
@@ -72,6 +85,7 @@ namespace graphics::primitives
     export void OnImGui()
     {
         ImGui::Button("Primitives");
+        ImGui::SliderFloat("Parametric line t", &parametric::t, 0.001f, 0.1f, "%.3f");
     }
 
 }
