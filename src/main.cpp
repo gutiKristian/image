@@ -89,6 +89,13 @@ int main()
     sf::Image canvas;
     canvas.create(WIDTH, HEIGHT, sf::Color::Black);
 
+    int x0 = 100;
+    int y0 = 100;
+    int x1 = 1000;
+    int y1 = 700;
+
+    graphics::primitives::draw_line_dda({x0, y0}, {x1, y1}, canvas);
+    
 
     // Display the buffer
     buffer.write_image(canvas);
@@ -114,16 +121,17 @@ int main()
         OnImgui();
         ImGui::End();
 
-        if (graphics::primitives::parametric::redraw)
-        {
-            // Reset canvas
-            canvas.create(canvas.getSize().x, canvas.getSize().y, sf::Color::Black);
-            // Redraw parametric line
-            graphics::primitives::draw_line_parametric(canvas);
-            // Update buffer
-            buffer.write_image(canvas);
-            graphics::primitives::parametric::redraw = false;
-        }
+        // if (graphics::primitives::parametric::redraw)
+        // {
+        //     // Reset canvas
+        //     canvas.create(canvas.getSize().x, canvas.getSize().y, sf::Color::Black);
+        //     // Redraw parametric line
+        //     graphics::primitives::draw_line_parametric(canvas);
+        //     // Update buffer
+        //     buffer.write_image(canvas);
+        //     graphics::primitives::parametric::redraw = false;
+        // }
+
 
         window.clear();
         window.draw(buffer.draw()); // Render buffer(image that has been modified)
