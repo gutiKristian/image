@@ -26,6 +26,37 @@ namespace graphics::primitives
         std::cout << "-------------------------------------------------------\n";
     }
 
+    /**
+     * Writes a line using DDA algorithm into the provided image.
+     * @param p1 Starting position
+     * @param p2 Ending position
+     * @param img Where the line will be drawn
+     * @param color Color of the drawn line
+     */
+    export void draw_line_dda(Point p1, Point p2, Image& img, const Color& color = sf::Color::White)
+    {
+        auto[x0, y0] = p1;
+        auto[x1, y1] = p2;
+
+        float dx = x1 - x0;
+        float dy = y1 - y0;
+
+        int steps = static_cast<int>(std::fabs(dx) > std::fabs(dy) ? std::fabs(dx) : std::fabs(dy));
+        dx = dx / steps;
+        dy = dy / steps;
+
+        float m = std::fabs(dy / dx);
+        float current_x = x0;
+        float current_y = y0;
+
+        for (size_t i = 0; i <= steps; i++)
+        {
+            img.setPixel(std::round(current_x), std::round(current_y), color);
+            current_x += dx;
+            current_y += dy; 
+        }
+        
+    }
 
     /**
      * Writes a line into the provided image.
