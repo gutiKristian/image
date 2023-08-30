@@ -34,13 +34,23 @@ namespace basics
         return dst;
     }
 
-    export sf::Image contrast(const sf::Image& src)
+    export sf::Image contrast(const sf::Image& src, int c)
     {
         sf::Image dst;
         dst.copy(src, 0, 0);
 
-        // TODO implement
-        return sf::Image();
+        sf::Color k(b, 0, 0);
+
+        auto size = dst.getSize();
+        for (int i = 0; i < size.y; ++i)
+        {
+            for (int j = 0; j < size.x; ++j)
+            {
+                dst.setPixel(j, i, src.getPixel(j, i) * k);
+            }
+        }
+        
+        return dst;
     }
 
     export sf::Image gradient(const sf::Image& src)
