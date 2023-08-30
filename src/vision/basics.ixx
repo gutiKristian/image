@@ -7,7 +7,7 @@ module;
 
 export module Basics;
 
-namespace basics
+namespace vis::basics
 { 
     // We work with bit depth equal to 8, values exceeding 255 are automatically
     // clamped by sf
