@@ -13,6 +13,8 @@ find_package(SFML 2.6 COMPONENTS "system" window graphics audio REQUIRED)
 
 file(GLOB ImGui CONFIGURE_DEPENDS "src/imgui/*.h" "src/imgui/*.cpp")
 file(GLOB GraphicsModule CONFIGURE_DEPENDS "src/graphics/*.ixx")
+file(GLOB VisionModule CONFIGURE_DEPENDS "src/vision/*.ixx")
 
-add_executable(${PROJECT_NAME} src/main.cpp ${GraphicsModule} src/vision/basics.ixx ${HEADER_FILES} ${ImGui})
+
+add_executable(${PROJECT_NAME} src/main.cpp ${GraphicsModule} ${VisionModule} ${HEADER_FILES} ${ImGui})
 target_link_libraries(${PROJECT_NAME} "sfml-system" sfml-window sfml-graphics sfml-audio)
