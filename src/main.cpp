@@ -7,8 +7,8 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/System.hpp"
 
-import Basics;
 import graphics;
+import vision;
 
 /**
  * Object of global buffer, helps us abstract the variables that are
@@ -60,7 +60,7 @@ private:
 
 void OnImgui()
 {
-    graphics::primitives::OnImGui();
+    // graphics::primitives::OnImGui();
 }
 
 int main()
@@ -76,26 +76,23 @@ int main()
     std::string image_path = (path_to_imgs / "erika.png").string();
 
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "SFML", sf::Style::Close);
-    ImGui::SFML::Init(window);
-
-    // Image for vision -- ignored for now
-    //
-    //    if (!(image.loadFromFile(image_path)))
-    //    {
-    //        std::cout << "Cannot load image";   //Load Image
-    //    }
+    ImGui::SFML::Init(window);   
 
     // Canvas for graphics, this is a buffer that is modified and written on
     sf::Image canvas;
     canvas.create(WIDTH, HEIGHT, sf::Color::Black);
 
-    int x0 = 100;
-    int y0 = 100;
-    int x1 = 1000;
-    int y1 = 700;
-
-    graphics::primitives::draw_line_dda({x0, y0}, {x1, y1}, canvas);
+     // Image for vision -- ignored for now
+    if (!(canvas.loadFromFile(image_path)))
+    {
+        std::cout << "Cannot load image";   //Load Image
+    }
     
+    sf::Image new_image = vis::basics::contrast(canvas, 1);
+    sf::Texture new_tex;
+    new_tex.loadFromImage(new_image);
+    sf::Sprite new_sprite(new_tex);
+
 
     // Display the buffer
     buffer.write_image(canvas);
@@ -115,12 +112,11 @@ int main()
                 window.close();
             }
         }
-
+        
         ImGui::SFML::Update(window, delta_clock.restart());
         ImGui::Begin("Image");
         OnImgui();
         ImGui::End();
-
         // if (graphics::primitives::parametric::redraw)
         // {
         //     // Reset canvas
@@ -135,6 +131,8 @@ int main()
 
         window.clear();
         window.draw(buffer.draw()); // Render buffer(image that has been modified)
+        new_sprite.setPosition(buffer.p_texture->getSize().x + 10, 0);
+        window.draw(new_sprite);
         ImGui::SFML::Render(window); // Render UI
         window.display();
     }
