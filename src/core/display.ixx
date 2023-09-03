@@ -9,7 +9,7 @@ export module core:display;
 
 #define CallbackFn std::function<void()>
 
-export namespace core
+namespace core
 {
     // Interface
     struct Implementation
@@ -27,7 +27,7 @@ export namespace core
             Implementation(int width, int height, std::string name) : mWidth(width), mHeight(height), mName(std::move(name)) {}
     };
 
-    class Window
+    export class Window
     {
     protected:
         std::unique_ptr<Implementation> pImpl;
