@@ -1,51 +1,59 @@
 module;
 
 #include <string>
+#include <memory>
+#include <concepts>
+#include <functional>
 
 export module core:display;
 
+#define CallbackFn std::function<void()>
+
 export namespace core
 {
+    // Interface
     class Implementation
     {
-        struct Data
-        {
-            int mWidth;
-            int mHeight;
-            std::string mName;
-            
-        };
-
+    // Data members
     protected:
-    //TODO:  Try to get rid off Data, pass this to the glfwSetPointer then we will cast it to impl calss and update members
-        Data mData; 
-        Implementation(int width, int height, std::string name)
-        {
-            mData.mWidth = width;
-            mData.mHeight = height;
-            mData.mName = std::move(name);
-        }
-
-        virtual void CreateWindow() = 0;
-
-    public:
-        inline const Data& GetData() { return mData; }
+        int mWidth;
+        int mHeight;
+        std::string mName;
+        CallbackFn callback;
+    // Member methods
+    protected:
+            Implementation(int width, int height, std::string name) : mWidth(width), mHeight(height), mName(std::move(name)) {}
+            // Window calls this, Implementation classes are friends of Window
+            virtual void CreateWindow() = 0;
     };
 
+
+
+    template <typename T>
+    concept IsDerived = std::is_base_of<Implementation, T>::value;
+    
+    template <IsDerived Impl>
     class Window
     {
+        friend Impl;
+
     protected:
-        Implementation * pImpl;
+        std::shared_ptr<Impl> pImpl;
         
-        virtual void SetEventCallback() = 0;
     public:
-        Window(Implementation * windowImplementation) : pImpl(windowImplementation) {}
-        virtual ~Window() { delete pImpl; }
+        Window(int width, int height, std::string name)
+        {
+            pImpl = std::make_shared(width, height, std::move(name));
+            pImpl->CreateWindow();
+        }
+
+        ~Window() = default;
 
         // Utilities
-        inline int GetWidth() { return pImpl->GetData().mWidth; }
-        inline int GetHeight() { return pImpl->GetData().mHeight; }
-        inline std::string GetName() { return pImpl->GetData().mName; }
+        inline int GetWidth() { return pImpl->mWidth; }
+        inline int GetHeight() { return pImpl->mHeight; }
+        inline std::string GetName() { return pImpl->mName; }
+        void SetEventCallback(CallbackFn func) { pImpl->callback = func; }
         
     };
 
@@ -58,17 +66,18 @@ export namespace core
 
         void CreateWindow() override
         {
-
+            
         }
     };
 
+
+
     class Application
     {
-    private:
-        Window * pWindow;
+    
     public:
         virtual void OnAttach() = 0;
-        virtual void OnUpadte() = 0;
+        virtual void OnUpdate() = 0;
         virtual void OnDestroy() = 0;
         virtual void OnUiRender() = 0;
         virtual ~Application() {}
