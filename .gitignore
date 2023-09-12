@@ -50,4 +50,7 @@ src/imgui/*.h
 # Custom
 clion-build/*
 cmake-build-debug/*
-external/*
+external/stb/*
+external/glfw/*
+external/glad/include/*
+external/glad/src/*
