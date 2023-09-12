@@ -3,13 +3,14 @@ project(image)
 
 set(CMAKE_CXX_STANDARD 20)
 
+file(GLOB CoreModule CONFIGURE_DEPENTS "src/core/*.ixx")
 file(GLOB GraphicsModule CONFIGURE_DEPENDS "src/graphics/*.ixx")
 file(GLOB VisionModule CONFIGURE_DEPENDS "src/vision/*.ixx")
 
 add_subdirectory(external/glad)
 add_subdirectory(external/glfw)
 # add_executable(${PROJECT_NAME} src/main.cpp src/stb.h ${GraphicsModule} ${VisionModule})
-add_executable(${PROJECT_NAME} src/main.cpp src/stb.h)
+add_executable(${PROJECT_NAME} src/main.cpp src/stb.h ${CoreModule})
 
 
 target_include_directories(${PROJECT_NAME} 
