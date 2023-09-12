@@ -2,6 +2,7 @@ module;
 
 #include <string>
 #include <memory>
+#include <iostream>
 #include <concepts>
 #include <functional>
 #include <glad/glad.h>
@@ -13,6 +14,12 @@ export module core:display;
 
 namespace core
 {
+    /*
+    
+        HIDDEN
+    
+    */
+
     // Abstract
     struct Implementation
     {
@@ -22,26 +29,95 @@ namespace core
         int mHeight;
         std::string mName;
         CallbackFn callback;
-
-    // Member methods
-    public:
+        // Member methods
         virtual void CreateWindow() = 0;
+        virtual void OnUpdate() = 0;
+
+        virtual ~Implementation() = default;
     protected:
         Implementation(int width, int height, std::string name) : mWidth(width), mHeight(height), mName(std::move(name)) {}
     };
 
-    struct GLFWImpl : public Implementation
+    /*
+        Implementations
+    */
+
+    export struct GLFWImpl : public Implementation
     {
 
         GLFWImpl(int width = 800, int height = 600, std::string name = "GLFWWindow") 
-            : Implementation(width, height, std::move(name)) {}
+            : Implementation(width, height, std::move(name)) 
+        {
+            std::cout << "Created GLFWwindow\n";
+        }
+        
+        ~GLFWImpl()
+        {
+            glfwTerminate();
+        }
 
         void CreateWindow() override
         {
+            if (!glfwInit())
+            {
+                std::cout << "GLFW failed to initialize!\n";
+            }
+
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+
+
+            pWindow = glfwCreateWindow(mWidth, mHeight, mName.c_str(), nullptr, nullptr);
+
+            if (pWindow == nullptr)
+            {
+                std::cout << "Failed to create GLFW window\n";
+                glfwTerminate();
+            }
+
+            glfwMakeContextCurrent(pWindow);
+
+            // init glad
+            if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+            {
+                std::cout << "Failed to initialize GLAD\n";
+            }
+
+            glfwSetWindowUserPointer(pWindow, this);
+
+            glfwSetFramebufferSizeCallback(pWindow, [](GLFWwindow *window, int width, int height)
+            {
+                GLFWImpl& data = *(GLFWImpl *) glfwGetWindowUserPointer(window);
+                data.mWidth = width;
+                data.mHeight = height;
+                std::cout << "Resize action\n";
+                // Call callback for resize, set by application
+                // data.callback(<resize event>)
+            });
+
+
+            glfwSetWindowCloseCallback(pWindow, [](GLFWwindow* window)
+            {
+                GLFWImpl& data = *(GLFWImpl *) glfwGetWindowUserPointer(window);
+                // Callback set by application
+                std::cout << "Should have closed!\n";
+            });
 
         }
+
+        void OnUpdate() override
+        {
+            glfwPollEvents();
+            glfwSwapBuffers(pWindow);
+        }
+    private:
+        GLFWwindow* pWindow;
     };
 
+    /*
+        Abstractions
+    */
 
     export class Window
     {
@@ -61,6 +137,7 @@ namespace core
         int GetHeight() { return pImpl->mHeight; }
         const std::string& GetName() { return pImpl->mName; }
         void SetEventCallback(CallbackFn func) { pImpl->callback = func; }
+        void OnUpdate() { pImpl->OnUpdate(); }
     };
 
 
