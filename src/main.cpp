@@ -10,6 +10,12 @@ void OnImgui()
 
 int main()
 {
+    std::unique_ptr<core::Window> window = std::make_unique<core::Window>(std::make_unique<core::GLFWImpl>());
+    while (true)
+    {
+        window->OnUpdate();
+    }
+    
     // GlobalBuffer& buffer = GlobalBuffer::GetInstance();
 
 
