@@ -4,6 +4,8 @@ module;
 #include <memory>
 #include <concepts>
 #include <functional>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 export module core:display;
 
@@ -11,21 +13,35 @@ export module core:display;
 
 namespace core
 {
-    // Interface
+    // Abstract
     struct Implementation
     {
+    
     // Data members
         int mWidth;
         int mHeight;
         std::string mName;
         CallbackFn callback;
+
     // Member methods
     public:
-        // Window calls this, Implementation classes are friends of Window
         virtual void CreateWindow() = 0;
     protected:
-            Implementation(int width, int height, std::string name) : mWidth(width), mHeight(height), mName(std::move(name)) {}
+        Implementation(int width, int height, std::string name) : mWidth(width), mHeight(height), mName(std::move(name)) {}
     };
+
+    struct GLFWImpl : public Implementation
+    {
+
+        GLFWImpl(int width = 800, int height = 600, std::string name = "GLFWWindow") 
+            : Implementation(width, height, std::move(name)) {}
+
+        void CreateWindow() override
+        {
+
+        }
+    };
+
 
     export class Window
     {
@@ -33,18 +49,17 @@ namespace core
         std::unique_ptr<Implementation> pImpl;
         
     public:
-        Window(int width, int height, std::string name)
+        Window(std::unique_ptr<Implementation> impl) : pImpl(std::move(impl))
         {
-            pImpl = std::make_unique<Implementation>(width, height, std::move(name));
             pImpl->CreateWindow();
         }
 
         ~Window() = default;
 
         // Utilities
-        inline int GetWidth() { return pImpl->mWidth; }
-        inline int GetHeight() { return pImpl->mHeight; }
-        inline const std::string& GetName() { return pImpl->mName; }
+        int GetWidth() { return pImpl->mWidth; }
+        int GetHeight() { return pImpl->mHeight; }
+        const std::string& GetName() { return pImpl->mName; }
         void SetEventCallback(CallbackFn func) { pImpl->callback = func; }
     };
 
