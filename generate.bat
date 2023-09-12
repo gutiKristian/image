@@ -18,4 +18,4 @@ if not exist external\stb\stb_image_write.h (
 
 echo Generating build files
 
-cmake -DGLFW_BUILD_DOCS=OFF -S . -B build/
+cmake -S . -B build/
