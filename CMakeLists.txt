@@ -10,7 +10,7 @@ file(GLOB VisionModule CONFIGURE_DEPENDS "src/vision/*.ixx")
 add_subdirectory(external/glad)
 add_subdirectory(external/glfw)
 # add_executable(${PROJECT_NAME} src/main.cpp src/stb.h ${GraphicsModule} ${VisionModule})
-add_executable(${PROJECT_NAME} src/main.cpp src/stb.h ${CoreModule})
+add_executable(${PROJECT_NAME} src/main.cpp src/stb.h src/core/events.h ${CoreModule})
 
 
 target_include_directories(${PROJECT_NAME} 
