@@ -7,10 +7,11 @@ module;
 #include <functional>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "events.h"
 
 export module core:display;
 
-#define CallbackFn std::function<void()>
+#define CallbackFn std::function<void(int8_t)>
 
 namespace core
 {
@@ -91,17 +92,15 @@ namespace core
                 GLFWImpl& data = *(GLFWImpl *) glfwGetWindowUserPointer(window);
                 data.mWidth = width;
                 data.mHeight = height;
-                std::cout << "Resize action\n";
                 // Call callback for resize, set by application
-                // data.callback(<resize event>)
+                data.callback(EVENT_RESIZE);
             });
 
 
             glfwSetWindowCloseCallback(pWindow, [](GLFWwindow* window)
             {
                 GLFWImpl& data = *(GLFWImpl *) glfwGetWindowUserPointer(window);
-                // Callback set by application
-                std::cout << "Should have closed!\n";
+                data.callback(EVENT_CLOSE);                
             });
 
         }
@@ -140,5 +139,57 @@ namespace core
         void OnUpdate() { pImpl->OnUpdate(); }
     };
 
+
+
+    export struct VisionApplication
+    {
+        VisionApplication(std::string &&name, std::unique_ptr<Window> window) : mName(name), pWindow(std::move(window))
+        {
+            pWindow->SetEventCallback(std::bind(&VisionApplication::OnEvent, this, std::placeholders::_1));
+        }
+        ~VisionApplication() = default;
+
+        void Run()
+        {
+            while (mIsRunning)
+            {
+                pWindow->OnUpdate();
+            }
+        }
+        
+        void OnEvent(int8_t event)
+        {
+            switch (event)
+            {
+            case EVENT_CLOSE:
+                mIsRunning = false;
+                break;
+            case EVENT_RESIZE:
+                OnResize();
+                break;
+            default:
+                std::cout << "Unknown event\n";
+                break;
+            }
+        }
+
+    private:
+        void OnClose()
+        {
+            std::cout << "----- Vision OnClose -----\n";
+        }
+
+        void OnResize()
+        {
+            // Recalculating viewports ?
+            std::cout << "----- Vision OnResize -----\n";
+            std::cout << "Current res: " << pWindow->GetWidth() << ", " <<  pWindow->GetHeight() << "\n";
+        }
+
+        private:
+            bool mIsRunning = true;
+            std::string mName;
+            std::unique_ptr<Window> pWindow;
+    };
 
 }
