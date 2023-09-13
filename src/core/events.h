@@ -1,0 +1,3 @@
+#define EVENT_CLOSE 1
+#define EVENT_RESIZE 2
+#define EVENT_MOUSECLICK 3
