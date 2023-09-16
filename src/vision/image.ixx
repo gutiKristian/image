@@ -5,32 +5,56 @@ module;
 
 export module image;
 
+using DataPtr = unsigned char *;
+
+template<typename T>
 export struct Image
 {
     
-    unsigned char *data;
+    T *data;
     int mWidth, mHeight, mChannels;
 
     Image(const std::filesystem::path path)
     {
-        stbi_load(path.generic_string().data(), &mWidth, &mHeight, &mChannels, 0);
-        mStbiLoad = true;
+        mLoaddata = stbi_load(path.generic_string().data(), &mWidth, &mHeight, &mChannels, 0);
+        for (size_t i = 0; i < mWidth * mHeight; ++i)
+        {
+            data[i] = static_cast<T>(mLoaddata[i]);
+        }
+        // Release the old data
+        stbi_image_free(mLoaddata);
+
     }
 
-    Image(int width, int height) : mWidth(width), mHeight(height)
+    Image(int width, int height, T initialValue) : mWidth(width), mHeight(height)
     {
-        data = new unsigned char[width * height];
+        data = new T[width * height];
+        SetValue(initialValue);
     }
 
     ~Image()
     {
-        if (mStbiLoad)
-            stbi_image_free(data);
-        else
-            delete[] data;
+        delete[] data;
+    }
+
+    T& operator()(int x, int y)
+    {
+        if (x < 0 || x >= mWidth || y >= mHeight || y < 0)
+        {
+            throw std::exception();
+        }
+
+        return *(data + mWidth * y + x);
+    }
+
+    void SetVaule(T val)
+    {
+        for (size_t i = 0; i < mWidth * mHeight; ++i)
+        {
+            data[i] = val;
+        }
     }
 
 private:
-    bool mStbiLoad = false;
-
+    DataPtr *mLoaddata;
 }
