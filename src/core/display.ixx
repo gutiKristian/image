@@ -11,6 +11,8 @@ module;
 
 export module core:display;
 
+import image;
+
 #define CallbackFn std::function<void(int8_t)>
 
 namespace core
@@ -52,7 +54,7 @@ namespace core
             std::cout << "Created GLFWwindow\n";
         }
         
-        ~GLFWImpl()
+        ~GLFWImpl() override
         {
             glfwTerminate();
         }
@@ -111,7 +113,7 @@ namespace core
             glfwSwapBuffers(pWindow);
         }
     private:
-        GLFWwindow* pWindow;
+        GLFWwindow* pWindow = nullptr;
     };
 
     /*
@@ -143,10 +145,15 @@ namespace core
 
     export struct VisionApplication
     {
-        VisionApplication(std::string &&name, std::unique_ptr<Window> window) : mName(name), pWindow(std::move(window))
+        VisionApplication(std::string &&name, std::unique_ptr<Window> window, Image&& img) : mName(name), pWindow(std::move(window)), mImg(img)
         {
             pWindow->SetEventCallback(std::bind(&VisionApplication::OnEvent, this, std::placeholders::_1));
         }
+
+        // VisionApplication(std::string &&name, std::unique_ptr<Window> window) : mName(name), pWindow(std::move(window))
+        // {
+        //     pWindow->SetEventCallback(std::bind(&VisionApplication::OnEvent, this, std::placeholders::_1));
+        // }
         ~VisionApplication() = default;
 
         void Run()
@@ -167,6 +174,7 @@ namespace core
             case EVENT_RESIZE:
                 OnResize();
                 break;
+            //case EVENT_RELOAD_IMAGE
             default:
                 std::cout << "Unknown event\n";
                 break;
@@ -174,6 +182,7 @@ namespace core
         }
 
     private:
+
         void OnClose()
         {
             std::cout << "----- Vision OnClose -----\n";
@@ -188,8 +197,79 @@ namespace core
 
         private:
             bool mIsRunning = true;
+
+            Image mImg;
+
             std::string mName;
             std::unique_ptr<Window> pWindow;
     };
 
+    /*
+     * OpenGL code is represented as a layer that is being drawn
+     * on a window. Layer is managed by an application.
+     */
+    export class Layer
+    {
+    protected:
+        Layer() = default;
+
+    public:
+        virtual void OnAttach() = 0;
+        virtual void OnUpdate() = 0;
+        virtual void OnDetach() = 0;
+        virtual void OnEvent(int8_t) = 0;
+        virtual void OnResize(int, int) = 0;
+    };
+
+    /*
+     *  Application that manages window and layer.
+    */
+    export class OpenGLApplication
+    {
+    private:
+        bool mIsRunning = true;
+    protected:
+        std::unique_ptr<Window> pWindow;
+        std::unique_ptr<Layer> pLayer;
+    public:
+
+        explicit OpenGLApplication(std::unique_ptr<Window> window) : pWindow(std::move(window))
+        {
+            // Common
+            pWindow->SetEventCallback(std::bind(&OpenGLApplication::OnEvent, this, std::placeholders::_1));
+        }
+
+        void Run()
+        {
+            while(mIsRunning)
+            {
+                pLayer->OnUpdate();
+                pWindow->OnUpdate();
+            }
+        }
+
+        void OnClose()
+        {
+            pLayer->OnDetach();
+            mIsRunning = false;
+        }
+
+        void OnEvent(int8_t e)
+        {
+            switch (e)
+            {
+                case EVENT_CLOSE:
+                    OnClose();
+                    break;
+                case EVENT_RESIZE:
+                    pLayer->OnResize(pWindow->GetWidth(), pWindow->GetHeight());
+                    break;
+                default:
+                    pLayer->OnEvent(e)
+                    break;
+            }
+
+        }
+
+    };
 }
