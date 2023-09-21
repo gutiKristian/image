@@ -22,7 +22,7 @@ namespace core
         return pImpl->mName;
     }
 
-    inline void Window::SetEventCallback(CallbackFn func)
+    inline void Window::SetEventCallback(const std::function<void(Event&)>& func)
     {
         pImpl->callback = func;
     }

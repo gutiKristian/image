@@ -16,7 +16,7 @@ namespace core
         int GetWidth();
         int GetHeight();
         const std::string& GetName();
-        void SetEventCallback(CallbackFn func);
+        void SetEventCallback(const std::function<void(Event&)>& func);
         void OnUpdate();
     };
 }
