@@ -15,6 +15,6 @@ namespace core
     public:
         Application(std::unique_ptr<Window>, std::unique_ptr<Layer>);
         void Run();
-        void OnEvent(int);
+        void OnEvent(Event&);
     };
 }

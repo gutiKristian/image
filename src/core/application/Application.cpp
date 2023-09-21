@@ -20,13 +20,11 @@ namespace core
         pLayer->OnDetach();
     }
     
-    void Application::OnEvent(int event)
+    void Application::OnEvent(Event& event)
     {
-        if (event == EVENT_CLOSE)
-        {
-            mIsRunning = false;
-            return;
-        }
+        EventDispatcher dispatcher(event);
+
+        dispatcher.Dispatch<WindowCloseEvent>([&isRunning = mIsRunning](WindowCloseEvent &e){ isRunning = false; });
 
         pLayer->OnEvent(event);
     }
