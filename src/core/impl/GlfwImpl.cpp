@@ -1,4 +1,5 @@
 #include "GlfwImpl.h"
+#include "../events.h"
 
 namespace core
 {
@@ -48,15 +49,16 @@ namespace core
             GLFWImpl& data = *(GLFWImpl *) glfwGetWindowUserPointer(window);
             data.mWidth = width;
             data.mHeight = height;
-            // Call callback for resize, set by application
-            data.callback(EVENT_RESIZE);
+            WindowResizeEvent e(width, height);
+            data.callback(e);
         });
 
 
         glfwSetWindowCloseCallback(pWindow, [](GLFWwindow* window)
         {
             GLFWImpl& data = *(GLFWImpl *) glfwGetWindowUserPointer(window);
-            data.callback(EVENT_CLOSE);                
+            WindowCloseEvent e;
+            data.callback(e);                
         });
     }
 
