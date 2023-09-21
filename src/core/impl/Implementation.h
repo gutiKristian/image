@@ -1,7 +1,6 @@
 #include <functional>
 #include <string>
-
-#define CallbackFn std::function<void(int8_t)>
+#include "../events.h"
 
 namespace core
 {
@@ -11,7 +10,7 @@ namespace core
         int mWidth;
         int mHeight;
         std::string mName;
-        CallbackFn callback;
+        std::function<void(Event&)> callback;
         // Member methods
         virtual void CreateWindow() = 0;
         virtual void OnUpdate() = 0;
