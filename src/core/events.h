@@ -21,30 +21,39 @@ namespace core
     {
     public:
         bool IsSuccess;
+        virtual EventType GetEventType() const = 0;
     protected:
         Event() = default;
     };
 
-
-    template <typename T>
-    concept SubEvent = requires(T a)
-    {
-        std::is_base_of<Event, T>::value;
-    };
+    
 
     class EventDispatcher
     {
-        Event mEvent;
+        Event& mEvent;
     public:
         EventDispatcher(Event& e) : mEvent(e) {}
 
-        template <SubEvent T>
-        static void Dispatch(auto& lambda)
+        template <typename T, typename F>
+        void Dispatch(F& lambda)
         {
+            
+            static_assert(std::is_base_of<Event, T>::value);
+
             if (mEvent.GetEventType() == T::GetStaticType())
             {
-                mEvent.IsSuccess; = (static_cast<T&>(mEvent));
+                mEvent.IsSuccess; = F(static_cast<T&>(mEvent));
             }
         }
+    };
+
+    struct WindowCloseEvent : public Event
+    { EVENT_CLASS_TYPE(WindowClose); };
+
+    struct WindowResizeEvent : public Event
+    {
+        int w, h;
+        WindowResizeEvent(int _w, int _h) : w(_w), h(_h) {}
+        EVENT_CLASS_TYPE(WindowResize);
     };
 }
