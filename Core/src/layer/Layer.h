@@ -1,6 +1,7 @@
 #ifndef LAYER_GUARD_H
 #define LAYER_GUARD_H
 
+#include "../events.h"
 
 namespace core
 {
