@@ -1,3 +1,7 @@
+#ifndef LAYER_GUARD_H
+#define LAYER_GUARD_H
+
+
 namespace core
 {
     /*
@@ -16,3 +20,5 @@ namespace core
         virtual void OnResize(int, int) = 0;
     };   
 }
+
+#endif

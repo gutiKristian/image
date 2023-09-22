@@ -1,4 +1,10 @@
+#ifndef GLFWIMPL_GUARD_H
+#define GLFWIMPL_GUARD_H
+
+
 #include "Implementation.h"
+#include <iostream>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace core
@@ -7,7 +13,7 @@ namespace core
     {
     public:
         GLFWImpl(int, int, std::string);
-        ~GLFWImpl() override;
+        ~GLFWImpl();
 
         void CreateWindow() override;
         void OnUpdate() override;
@@ -16,3 +22,5 @@ namespace core
         GLFWwindow* pWindow = nullptr;
     };
 }
+
+#endif

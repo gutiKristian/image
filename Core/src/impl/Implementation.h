@@ -1,3 +1,6 @@
+#ifndef IMPLEMENTATION_GUARD_H
+#define IMPLEMENTATION_GUARD_H
+
 #include <functional>
 #include <string>
 #include "../events.h"
@@ -20,3 +23,5 @@ namespace core
         Implementation(int width, int height, std::string name) : mWidth(width), mHeight(height), mName(std::move(name)) {}
     };
 }
+
+#endif

@@ -9,12 +9,12 @@ namespace core
 
     }
 
-    GLFWImpl::~GLFWImpl() override
+    GLFWImpl::~GLFWImpl()
     {
         glfwTerminate();
     }
 
-    GLFWImpl::CreateWindow() override
+    void GLFWImpl::CreateWindow()
     {
         if (!glfwInit())
         {
@@ -62,7 +62,7 @@ namespace core
         });
     }
 
-    GLFWImpl::OnUpdate()
+    void GLFWImpl::OnUpdate()
     {
         glfwPollEvents();
         glfwSwapBuffers(pWindow);

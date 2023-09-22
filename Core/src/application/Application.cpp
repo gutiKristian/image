@@ -16,6 +16,7 @@ namespace core
         while (mIsRunning)
         {
             pLayer->OnUpdate();
+            pWindow->OnUpdate();
         }
         pLayer->OnDetach();
     }

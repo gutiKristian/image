@@ -6,9 +6,6 @@ module;
 #include <iostream>
 
 #include "../imgui/imgui.h"
-#include "SFML/Graphics.hpp"
-#include "SFML/System.hpp"
-
 
 export module graphics:primitives;
 
@@ -40,7 +37,7 @@ namespace graphics::primitives
 
         float dx = x1 - x0;
         float dy = y1 - y0;
-
+	
         int steps = static_cast<int>(std::fabs(dx) > std::fabs(dy) ? std::fabs(dx) : std::fabs(dy));
         dx = dx / steps;
         dy = dy / steps;

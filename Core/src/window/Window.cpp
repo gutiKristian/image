@@ -7,27 +7,27 @@ namespace core
         pImpl->CreateWindow();
     }
 
-    inline int Window::GetWidth()
+    int Window::GetWidth()
     {
         return pImpl->mWidth;
     }
 
-    inline int Window::GetHeight()
+    int Window::GetHeight()
     {
         return pImpl->mHeight;
     }
 
-    inline const std::string& Window::GetName()
+    const std::string& Window::GetName()
     {
         return pImpl->mName;
     }
 
-    inline void Window::SetEventCallback(const std::function<void(Event&)>& func)
+    void Window::SetEventCallback(const std::function<void(Event&)>& func)
     {
         pImpl->callback = func;
     }
 
-    inline void Window::OnUpdate()
+    void Window::OnUpdate()
     {
         pImpl->OnUpdate();
     }

@@ -1,14 +1,16 @@
+#ifndef EVENTS_GUARD_H
+#define EVENTS_GUARD_H
+
+
 // #define EVENT_CLOSE 1
 // #define EVENT_RESIZE 2
 // #define EVENT_MOUSECLICK 3
 
 #define BIT(x) 1 << x
-#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::##type; }\
-								virtual EventType GetEventType() const override { return GetStaticType(); }\
 
 namespace core
 {
-    enum EventType
+    enum class EventType
     {
         None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
@@ -16,6 +18,9 @@ namespace core
 		KeyPressed, KeyReleased, KeyTyped,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
     };
+
+    #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::##type; }\
+								virtual EventType GetEventType() const override { return GetStaticType(); }
 
     class Event
     {
@@ -35,14 +40,14 @@ namespace core
         EventDispatcher(Event& e) : mEvent(e) {}
 
         template <typename T, typename F>
-        void Dispatch(F& lambda)
+        void Dispatch(const F& lambda)
         {
             
             static_assert(std::is_base_of<Event, T>::value);
 
             if (mEvent.GetEventType() == T::GetStaticType())
             {
-                mEvent.IsSuccess; = F(static_cast<T&>(mEvent));
+                lambda(static_cast<T&>(mEvent));
             }
         }
     };
@@ -57,3 +62,5 @@ namespace core
         EVENT_CLASS_TYPE(WindowResize);
     };
 }
+
+#endif

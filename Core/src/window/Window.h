@@ -1,3 +1,6 @@
+#ifndef WINDOW_GUARD_H
+#define WINDOW_GUARD_H
+
 #include <memory>
 #include "../impl/Implementation.h"
 
@@ -20,3 +23,5 @@ namespace core
         void OnUpdate();
     };
 }
+
+#endif
