@@ -2,6 +2,7 @@
 #define OPENGL_SHADER_PROGRAM_GUARD_H
 
 #include <filesystem>
+#include <iostream>
 #include "Shader.h"
 
 namespace core
