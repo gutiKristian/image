@@ -43,7 +43,7 @@ namespace core
         void Dispatch(const F& lambda)
         {
             
-            static_assert(std::is_base_of<Event, T>::value);
+            // static_assert(std::is_base_of<Event, T>::value);
 
             if (mEvent.GetEventType() == T::GetStaticType())
             {
