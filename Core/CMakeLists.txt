@@ -6,6 +6,7 @@ file(GLOB_RECURSE CORE_HEADERS  ${CMAKE_SOURCE_DIR}/Core/src/impl/*.h
                                 ${CMAKE_SOURCE_DIR}/Core/src/layer/*.h
                                 ${CMAKE_SOURCE_DIR}/Core/src/application/*.h
                                 ${CMAKE_SOURCE_DIR}/Core/src/window/*.h
+                                ${CMAKE_SOURCE_DIR}/Core/src/glutil/*.h
                                 ${CMAKE_SOURCE_DIR}/Core/src/*.h
 )
 
@@ -13,6 +14,7 @@ file(GLOB_RECURSE CORE_UNITS    ${CMAKE_SOURCE_DIR}/Core/src/impl/*.cpp
                                 ${CMAKE_SOURCE_DIR}/Core/src/application/*.cpp
                                 ${CMAKE_SOURCE_DIR}/Core/src/layer/*.cpp
                                 ${CMAKE_SOURCE_DIR}/Core/src/window/*.cpp
+                                ${CMAKE_SOURCE_DIR}/Core/src/glutil/*.cpp
                                 ${CMAKE_SOURCE_DIR}/Core/src/*.cpp
 )
 
