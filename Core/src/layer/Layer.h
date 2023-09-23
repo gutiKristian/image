@@ -15,7 +15,7 @@ namespace core
         Layer() = default;
     public:
         virtual void OnAttach() = 0;
-        virtual void OnUpdate() = 0;
+        virtual void OnUpdate(float time) = 0;
         virtual void OnDetach() = 0;
         virtual void OnEvent(Event&) = 0;
         virtual void OnResize(int, int) = 0;

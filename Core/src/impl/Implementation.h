@@ -14,10 +14,10 @@ namespace core
         int mHeight;
         std::string mName;
         std::function<void(Event&)> callback;
+        float mTime{0.0f};
         // Member methods
         virtual void CreateWindow() = 0;
         virtual void OnUpdate() = 0;
-
         virtual ~Implementation() = default;
     protected:
         Implementation(int width, int height, std::string name) : mWidth(width), mHeight(height), mName(std::move(name)) {}

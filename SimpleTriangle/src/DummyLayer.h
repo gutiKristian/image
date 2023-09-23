@@ -18,7 +18,7 @@ class DummyLayer : public core::Layer
 
 public:
     virtual void OnAttach() override;
-    virtual void OnUpdate() override;
+    virtual void OnUpdate(float time) override;
     virtual void OnDetach() override;
     virtual void OnEvent(core::Event&) override;
     virtual void OnResize(int, int) override;

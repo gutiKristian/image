@@ -15,7 +15,11 @@ namespace core
         pLayer->OnAttach();
         while (mIsRunning)
         {
-            pLayer->OnUpdate();
+            float time = pWindow->GetTime();
+            float frameTime = time - mPrevTime;
+            mPrevTime = time;
+
+            pLayer->OnUpdate(frameTime);
             pWindow->OnUpdate();
         }
         pLayer->OnDetach();

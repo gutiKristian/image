@@ -13,6 +13,7 @@ namespace core
     {
     private:
         bool mIsRunning = true;
+        float mPrevTime = 0.0f;
         std::unique_ptr<Window> pWindow;
         std::unique_ptr<Layer> pLayer;
     public:
