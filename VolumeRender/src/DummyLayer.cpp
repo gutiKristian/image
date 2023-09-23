@@ -16,13 +16,15 @@ void DummyLayer::OnAttach()
 
     glCreateBuffers(1, &mVbo);
     glNamedBufferData(mVbo, sizeof(float) * 9, data, GL_STATIC_DRAW);
-    
+
 
     glCreateVertexArrays(1, &mVao);
-    glVertexArrayVertexBuffer(mVao, 0, mVbo, 0, 3 * sizeof(float));
+    // Enabling attribute
     glEnableVertexArrayAttrib(mVao, 0);
-    glVertexArrayAttribFormat(mVao, 0, 3, GL_FLOAT, GL_FALSE, 0);
-    
+    // Set format, how this data are stored in the buffer
+    glVertexArrayAttribFormat(mVao, /*attributeIndex=*/0, /*size=*/3, /*type=*/GL_FLOAT, GL_FALSE, 0);
+    // Binding buffer (mVBO) from which the data for this attribute will be taken -- here it is 0
+    glVertexArrayVertexBuffer(mVao, 0, mVbo, 0, 3 * sizeof(float));
 }
 
 void DummyLayer::OnUpdate()
@@ -32,7 +34,6 @@ void DummyLayer::OnUpdate()
     pProgram->Use();
     glBindVertexArray(mVao);
     glDrawArrays(GL_TRIANGLES, 0, 3);
-
 }
 
 void DummyLayer::OnDetach()
