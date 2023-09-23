@@ -14,6 +14,7 @@ namespace core
         if (!mProgram)
         {
             std::cout << "Error while creating ShaderProgram, invalid mProgram!!!\n";
+            throw std::exception("Invalid ShaderProgram");
         }
 
         mShaders.push_back(vertex);
@@ -31,6 +32,8 @@ namespace core
         if (link == GL_FALSE)
         {
             mStatus = false;
+            std::cout << "Failed to link ShaderProgram\n";
+            // Throw ? --> in the future we will be able to reload shaders during runtime
         }
         else
         {
