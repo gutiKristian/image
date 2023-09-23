@@ -11,7 +11,9 @@ class SimpleShaderLayer : public core::Layer
             0.5f, -0.5f, 0.0f,
             0.0f,  0.5f, 0.0f
     };
-    
+
+    float addTim = 0.0f;
+
     GLuint mVbo{};
     GLuint mVao{};
     std::unique_ptr<core::ShaderProgram> pProgram;

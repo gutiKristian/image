@@ -24,14 +24,16 @@ void SimpleShaderLayer::OnAttach()
 void SimpleShaderLayer::OnUpdate(float time)
 {
     glClear(GL_COLOR_BUFFER_BIT);
+    
+    addTim += time;
 
-    float val = (std::sin(time) / 2.0f) + 0.5f;
+    float val = (std::sin(addTim) / 2.0f) + 0.5f;
     // Retrieve unifrom location
     int uniformColorLoc = glGetUniformLocation(pProgram->GetId(), "triangleColor");
     pProgram->Use();
     
     // Set the uniform
-    glUniform4f(uniformColorLoc, 0.0f, val, val, 1.0f);
+    glUniform4f(uniformColorLoc, 0.5f, val, 0.3f, 1.0f);
 
     glBindVertexArray(mVao);
     glDrawArrays(GL_TRIANGLES, 0, 3);
