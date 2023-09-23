@@ -4,7 +4,7 @@ void DummyLayer::OnAttach()
 {
     glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 
-    std::filesystem::path shadersDir = R"(C:\dev\graphics\image\VolumeRender\shaders)";
+    std::filesystem::path shadersDir = R"(C:\dev\graphics\image\SimpleTriangle\shaders)";
 
     // Just compiled shaders
     auto vertexShader = core::Shader(shadersDir / "default.vert", GL_VERTEX_SHADER);
