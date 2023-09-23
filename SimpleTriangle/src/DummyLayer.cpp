@@ -27,7 +27,7 @@ void DummyLayer::OnAttach()
     glVertexArrayVertexBuffer(mVao, 0, mVbo, 0, 3 * sizeof(float));
 }
 
-void DummyLayer::OnUpdate()
+void DummyLayer::OnUpdate(float time)
 {
     // Eventhough we have only one VAO and only one ShaderProgram we use it just to keep it clear
     glClear(GL_COLOR_BUFFER_BIT);

@@ -64,6 +64,7 @@ namespace core
 
     void GLFWImpl::OnUpdate()
     {
+        mTime = (float)glfwGetTime();
         glfwPollEvents();
         glfwSwapBuffers(pWindow);
     }

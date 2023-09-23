@@ -31,4 +31,9 @@ namespace core
     {
         pImpl->OnUpdate();
     }
+    
+    float Window::GetTime()
+    {
+        pImpl->mTime;
+    }
 }

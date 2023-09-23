@@ -21,6 +21,7 @@ namespace core
         const std::string& GetName();
         void SetEventCallback(const std::function<void(Event&)>& func);
         void OnUpdate();
+        float GetTime();
     };
 }
 
