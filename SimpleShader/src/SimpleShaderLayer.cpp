@@ -37,6 +37,10 @@ void SimpleShaderLayer::OnUpdate(float time)
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
+void SimpleShaderLayer::OnDetach()
+{
+}
+
 void SimpleShaderLayer::OnEvent(core::Event &)
 {
 }
