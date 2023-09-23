@@ -37,6 +37,8 @@ void DummyLayer::OnUpdate()
 
 void DummyLayer::OnDetach()
 {
+    glDeleteVertexArrays(1, &mVao);
+    glDeleteBuffers(1, &mVbo);
 }
 
 void DummyLayer::OnEvent(core::Event &e)
