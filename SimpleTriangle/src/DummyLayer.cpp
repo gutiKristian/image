@@ -33,6 +33,7 @@ void DummyLayer::OnUpdate()
     glClear(GL_COLOR_BUFFER_BIT);
     pProgram->Use();
     glBindVertexArray(mVao);
+    //glDrawArrays(mode, starting index in enabled array, number of indices to be rendered)
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
